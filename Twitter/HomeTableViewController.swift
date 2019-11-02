@@ -10,12 +10,29 @@ import UIKit
 
 class HomeTableViewController: UITableViewController {
 
-    
+    var tweetArray = [NSDictionary]()
+    var numberOfTweet: Int!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+    }
+    
+    
+    func loadTweet(){
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myParams = ["count": 10]
+        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams, success:
+            { (tweets: [NSDictionary]) in
+                self.tweetArray.removeAll()
+                for tweet in tweets{
+                    self.tweetArray.append(tweet)
+                }
+        }, failure: { (Error) in
+            print("Could not retrieve tweets")
+        })
         
     }
 
